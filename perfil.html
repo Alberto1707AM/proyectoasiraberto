@@ -1,0 +1,510 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMEVERSE </title>
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2c2c2c; 
+            color: #ffffff;
+        }
+
+        header {
+            background-color: #ff7700; 
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #ff9800;
+        }
+        a {
+            color: #4caf50;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        
+    nav {
+        text-align: center;
+        margin: 20px 0;
+    }
+    nav a {
+        text-decoration: none;
+        color: #ffffff;
+        margin: 0 15px;
+        font-size: 1.2em;
+    }
+    nav a:hover {
+        color: #ff7700; 
+    }
+    section {
+        padding: 20px;
+        display: none;
+    }
+    section:target {
+        display: block;
+    }
+    
+    .inicioh2 {
+        margin: 0;
+        font-size: 3em;
+        text-align: center;
+        color: #ffffff
+    }
+
+    .container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+h1 {
+    color: #ff9800;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ff9800;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #444;
+    color: #fff;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+input[type="submit"] {
+    background-color: #ff7700;
+    color: rgb(0, 0, 0);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #ff9800;
+}
+
+.fila {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten a múltiples filas si no caben */
+    gap: 10px; /* Espacio entre los elementos */
+    align-items: center; /* Alinea verticalmente los elementos */
+}
+     
+     
+
+
+
+
+
+
+</style>
+
+<script>
+    // Función para validar el nombre de usuario
+    function validarUsername() {
+        var username = document.getElementById("username").value;
+        var errorUsername = document.getElementById("errusername");
+        if (!username || /^\s+$/.test(username)) {
+            errorUsername.style.display = 'inline';
+            errorUsername.innerHTML = "El nombre de usuario es obligatorio.";
+            errorUsername.style.color = "red";
+            return false;
+        } else if (/^[A-Za-z0-9_]{3,20}$/.test(username)) {
+            errorUsername.innerHTML = "OK";
+            errorUsername.style.color = "green";
+            return true;
+        } else {
+            errorUsername.innerHTML = "Nombre de usuario inválido (solo letras, números y guiones bajos).";
+            errorUsername.style.color = "red";
+            return false;
+        }
+    }
+
+    // Función para validar la contraseña
+    function validarPassword() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirm_password").value;
+        var errorPassword = document.getElementById("errpassword");
+        if (!password || /^\s+$/.test(password)) {
+            errorPassword.innerHTML = "La contraseña es obligatoria.";
+            errorPassword.style.color = "red";
+            return false;
+        } else if (password !== confirmPassword) {
+            errorPassword.innerHTML = "Las contraseñas no coinciden.";
+            errorPassword.style.color = "red";
+            return false;
+        } else if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
+            errorPassword.innerHTML = "OK";
+            errorPassword.style.color = "green";
+            return true;
+        } else {
+            errorPassword.innerHTML = "Contraseña inválida (mínimo 8 caracteres, letras y números).";
+            errorPassword.style.color = "red";
+            return false;
+        }
+    }
+
+    // Función para validar la fecha de nacimiento
+    function comprueba_fecha() {
+        var fechaInput = document.getElementById("fecha").value;
+        var errorFecha = document.getElementById("errfecha");
+        var fechaNacimiento = new Date(fechaInput);
+        var hoy = new Date();
+        var edadMinima = 13;
+
+        if (!fechaInput) {
+            errorFecha.innerHTML = "La fecha de nacimiento es obligatoria.";
+            errorFecha.style.color = "red";
+            return false;
+        } else if (hoy.getFullYear() - fechaNacimiento.getFullYear() < edadMinima) {
+            errorFecha.innerHTML = "Debes tener al menos " + edadMinima + " años.";
+            errorFecha.style.color = "red";
+            return false;
+        } else {
+            errorFecha.innerHTML = "OK";
+            errorFecha.style.color = "green";
+            return true;
+        }
+    }
+
+    // Función para validar el correo electrónico
+    function validarEmail() {
+        var email = document.getElementById("email").value;
+        var errorEmail = document.getElementById("erremail");
+        if (!email || /^\s+$/.test(email)) {
+            errorEmail.innerHTML = "El correo electrónico es obligatorio.";
+            errorEmail.style.color = "red";
+            return false;
+        } else if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+            errorEmail.innerHTML = "OK";
+            errorEmail.style.color = "green";
+            return true;
+        } else {
+            errorEmail.innerHTML = "Correo electrónico inválido.";
+            errorEmail.style.color = "red";
+            return false;
+        }
+    }
+
+    // Función para verificar que al menos un género esté seleccionado
+    function validarGenero() {
+        var generos = document.getElementsByName("genero");
+        var errorGenero = document.getElementById("errgenero");
+        var seleccionado = false;
+
+        for (var i = 0; i < generos.length; i++) {
+            if (generos[i].checked) {
+                seleccionado = true;
+                break;
+            }
+        }
+
+        if (!seleccionado) {
+            errorGenero.innerHTML = "Selecciona al menos un género preferido.";
+            errorGenero.style.color = "red";
+            return false;
+        } else {
+            errorGenero.innerHTML = "OK";
+            errorGenero.style.color = "green";
+            return true;
+        }
+    }
+
+    // Función para activar/desactivar el botón "Crear Cuenta"
+    function validarFormulario() {
+        var camposValidos =
+            validarUsername() &&
+            validarPassword() &&
+            comprueba_fecha() &&
+            validarEmail() &&
+            validarGenero();
+
+        document.getElementById("submit-btn").disabled = !camposValidos;
+    }
+
+
+
+   
+  
+
+        function limita2(maximoCaracteres) {
+            var elemento = document.getElementById("observaciones");
+            if (elemento.value.length >= maximoCaracteres) {
+                return false;
+            } else {
+                var quedan = maximoCaracteres - elemento.value.length - 1;
+                document.getElementById("spancaracteres").innerHTML = "Te quedan " + quedan + " caracteres";
+                return true;
+            }
+        }
+
+
+
+
+
+
+        function comprobar_intereses() {
+            var cont = 0;
+            var cuanto = document.getElementById("cinteres");
+            if (cuanto.checked) {
+                cont++;
+            }
+            var cuanto = document.getElementById("cinteres1");
+            if (cuanto.checked) {
+                cont++;
+            }
+            var cuanto = document.getElementById("cinteres2");
+            if (cuanto.checked) {
+                cont++;
+            }
+            var cuanto = document.getElementById("cinteres3");
+            if (cuanto.checked) {
+                cont++;
+            }
+            var cuanto = document.getElementById("cinteres4");
+            if (cuanto.checked) {
+                cont++;
+            }
+
+            if (cont < 2) {
+                var textspan = document.getElementById("errinteres");
+                textspan.innerHTML = "2 intereses minimo";
+                textspan.style.color = "red";
+                return false;
+            }
+            var textspan = document.getElementById("errinteres");
+            textspan.innerHTML = "OK";
+            textspan.style.color = "green";
+            return true;
+        }
+
+
+
+
+
+
+
+
+
+
+
+    // Asignar eventos a los campos del formulario
+    window.onload = function () {
+        document.getElementById("username").oninput = validarUsername;
+        document.getElementById("password").oninput = validarPassword;
+        document.getElementById("confirm_password").oninput = validarPassword;
+        document.getElementById("fecha").oninput = comprueba_fecha;
+        document.getElementById("email").oninput = validarEmail;
+
+        var generos = document.getElementsByName("genero");
+        for (var i = 0; i < generos.length; i++) {
+            generos[i].onchange = validarGenero;
+        }
+
+        // Validar el formulario inicialmente
+        validarFormulario();
+    };
+
+
+    function limitarCaracteres(maximo) {
+    var bio = document.getElementById("bio"); // Obtener el textarea
+    var contador = document.getElementById("contador-caracteres"); // Obtener el span del contador
+
+    if (bio.value.length > maximo) {
+        // Si se excede el límite, recortar el texto
+        bio.value = bio.value.substring(0, maximo);
+    }
+
+    // Calcular cuántos caracteres quedan
+    var restantes = maximo - bio.value.length;
+
+    // Actualizar el contador en el span
+    contador.innerHTML = "Quedan " + restantes + " caracteres";
+
+    // Cambiar el color del contador si queda poco espacio
+    if (restantes <= 10) {
+        contador.style.color = "red";
+    } else {
+        contador.style.color = "white"; // Color predeterminado
+    }
+}
+
+
+
+
+function borrarTodo() {
+            // Limpiar campos de texto
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("confirm_password").value = "";
+            document.getElementById("fecha").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("bio").value = "";
+
+            // Limpiar checkboxes
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+
+            // Limpiar radio buttons
+            var radios = document.querySelectorAll('input[type="radio"]');
+            radios.forEach(function (radio) {
+                radio.checked = false;
+            });
+
+            // Limpiar mensajes de error
+            document.getElementById("errusername").innerHTML = "";
+            document.getElementById("errpassword").innerHTML = "";
+            document.getElementById("errfecha").innerHTML = "";
+            document.getElementById("erremail").innerHTML = "";
+            document.getElementById("errgenero").innerHTML = "";
+            document.getElementById("errinteres").innerHTML = "";
+
+            // Restablecer contador de caracteres
+            document.getElementById("contador-caracteres").innerHTML = "Quedan 300 caracteres";
+            document.getElementById("contador-caracteres").style.color = "white"};
+
+
+        
+
+
+
+
+
+
+
+
+</script>
+
+
+
+<body>
+    <header>
+        <h1>GAMEVERSE</h1>
+    </header>
+
+    <nav>
+       
+        <a href="../gameverse/comunidad.html">COMUNIDAD</a>
+        <a href="../gameverse/categorias.html">CATEGORIAS</a>
+        <a href="../gameverse/torneos.html">TORNEOS</a>
+        <a href="../gameverse/perfil.html">CUENTA</a>
+        <a href="../gameverse/dondeestamos.html">DONDE ESTAMOS</a>
+    </nav>
+
+    <div class="container">
+        <h1>Crear una Cuenta en GAMEVERSE</h1>
+        <label for="username">Nombre de Usuario:</label>
+        <input type="text" id="username" name="username" required />
+        <span id="errusername"></span><br /><br />
+
+          
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required />
+        <span id="errpassword"></span><br /><br />
+        
+        <label for="confirm_password">Confirmar contraseña:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required /><br /><br />
+
+        <label for="fecha">Fecha de nacimiento:</label>
+        <input type="date" id="fecha" name="fecha" oninput="comprueba_fecha();" required />
+        <span id="errfecha"></span><br /><br />
+        
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" name="email" required />
+        <span id="erremail"></span><br /><br />
+        
+
+        <div class="fila" id="plataformas-container">
+        <span id="errgenero"></span><br /><br />
+        <div class="opcion">
+            
+        </div>
+        <div class="opcion">
+           
+            <p>
+                <label for="cinteres">¿Cual son tus categorias favoritas?:</label><br/><br/>
+                <input type="checkbox" name="interes[]" value="amigos" id="cinteres" onclick="comprobar_intereses(); botonDisabled();"/>Horror<br/>
+                <input type="checkbox" name="interes[]" value="anuncios" id="cinteres1" onclick="comprobar_intereses(); botonDisabled();"/>Shooter<br/>
+                <input type="checkbox" name="interes[]" value="blog" id="cinteres2" onclick="comprobar_intereses(); botonDisabled();"/>Aventuras<br/>
+                <input type="checkbox" name="interes[]" value="rrss" id="cinteres3" onclick="comprobar_intereses(); botonDisabled();"/>Simulacion<br/>
+                <input type="checkbox" name="interes[]" value="tv" id="cinteres4" onclick="comprobar_intereses(); botonDisabled();"/>Deportes<br/>
+                <br/>
+                <span id="errinteres"></span>
+            </p>
+            <p>
+                <label>Que producto quieres :</label> <br/><br/>
+                <input type="radio" name="producto" value="raton" id="raton" onclick="verificar_conectividad(); botonDisabled();"/> PC <br/>
+                <input type="radio" name="producto" value="teclado" id="teclado" onclick="verificar_teclado(); botonDisabled();" checked /> Movil <br/>
+                <input type="radio" name="producto" value="monitor" id="monitor" onclick="verificar_monitor(); botonDisabled();"/> Consola
+               
+                <br/>
+                
+        
+
+            <label for="bio">Biografía (opcional):</label><br />
+            <textarea id="bio" name="bio" rows="4" cols="50" oninput="limitarCaracteres(300)"></textarea><br />
+            <span id="contador-caracteres">Quedan 300 caracteres</span>
+
+            
+            <input type="submit" id="submit-btn" value="Crear Cuenta" disabled />
+            <input type="reset" value="Borrar Todo" onclick="borrarTodo()" />
+        </form>
+    </div>
+
+
+
+    <p>
+        <a href="http://validator.w3.org/check?uri=referer"><img
+            src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
+        <a href="rss.xml"><img src="rss.png" alt="Feed de rss" width="10%" title="rss"  /></a>
+        
+    </p>
+
+    </body
+</html>
